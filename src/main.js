@@ -23,7 +23,15 @@ function onSubmit(event) {
   event.preventDefault();
   showLoader();
 
-  if (imageName === '') {
+    if (imageName === '') {
+      iziToast.warning({
+      position: 'topRight',
+      timeout: 1800,
+      maxWidth: 300,
+      icon: 'none',
+      message: 'Please enter a search query!',
+    });
+    hideLoader();
     return;
   }
 
@@ -38,7 +46,16 @@ function onSubmit(event) {
       imageGallery.innerHTML = markup;
       lightbox.refresh();
     })
-    .catch(error => console.log(error))
+      .catch(error => {
+      console.error(error);
+      iziToast.error({
+        position: 'topRight',
+        timeout: 1800,
+        maxWidth: 300,
+        icon: 'none',
+        message: 'An error occurred while fetching images. Please try again later.',
+      });
+    })
     .finally(() => {
       hideLoader();
     });
